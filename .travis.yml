@@ -37,8 +37,5 @@ install:
   # Enable the Import API module.
   - drush en import_api -y
 
-  # Navigate to the core folder for PHPUnit.
-  - cd core
-
 #script:
-  - phpunit --group import_api
+  - phpunit -c ./core/phpunit.xml.dist $MODULE_DIR
