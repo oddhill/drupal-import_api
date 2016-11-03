@@ -24,6 +24,9 @@ install:
   - phpenv rehash
   - cd ..
 
+  # Export database variable for kernel tests.
+  - export SIMPLETEST_DB=mysql://root:@127.0.0.1/test
+
   # Download a fresh Drupal 8 installation.
   - drush dl drupal-8 --drupal-project-rename=drupal
   - cd drupal
