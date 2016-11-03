@@ -1,0 +1,5 @@
+name: Import API Examples
+type: module
+description: Contains examples on how to create importer plugins.
+core: 8.x
+package: Import

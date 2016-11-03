@@ -1,0 +1,7 @@
+name: Import API
+type: module
+description: Lets you build importers that can be run trough the Drupal interface or during cron runs.
+core: 8.x
+package: Import
+dependencies:
+  - serialization

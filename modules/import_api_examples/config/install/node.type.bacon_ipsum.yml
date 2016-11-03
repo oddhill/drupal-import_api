@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {}
+name: 'Bacon Ipsum'
+type: bacon_ipsum
+description: 'Example content type used by the bacon ipsum importer when creating content.'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

@@ -1,0 +1,14 @@
+import_api.admin_config_importers:
+  path: '/admin/config/importers'
+  defaults:
+    _controller: '\Drupal\import_api\Controller\ImportController::listImporters'
+    _title: 'Importers'
+  requirements:
+    _permission: 'access administration pages'
+
+import_api.admin_config_importers_import:
+  path: '/admin/config/importers/import'
+  defaults:
+    _controller: '\Drupal\import_api\Controller\ImportController::triggerImporter'
+  requirements:
+    _permission: 'access administration pages'

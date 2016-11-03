@@ -1,0 +1,6 @@
+system.admin_config_import_api:
+  title: Importers
+  route_name: import_api.admin_config_importers
+  parent: system.admin_config
+  description: 'Manage data importers.'
+  weight: 5
