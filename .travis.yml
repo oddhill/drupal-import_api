@@ -13,29 +13,36 @@ before_install:
   - mysql -e "create database IF NOT EXISTS test;" -uroot
 
 install:
-  # Export the composer bin folder.
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-
-  # Download drush to help with site installation and enabling the module.
-  - composer global require drush/drush
-  - phpenv rehash
+  # Save the module directory to a variable.
+  - MODULE_DIR="$(pwd)/drupal-import_api"
+  - echo $MODULE_DIR
+  - cd $MODULE_DIR
+  - ls -al
   - cd ..
 
+  # Export the composer bin folder.
+  # - export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+  # Download drush to help with site installation and enabling the module.
+  #- composer global require drush/drush
+  #- phpenv rehash
+  #- cd ..
+
   # Download a fresh Drupal 8 installation.
-  - drush dl drupal-8 --drupal-project-rename=drupal
-  - cd drupal
+  #- drush dl drupal-8 --drupal-project-rename=drupal
+  #- cd drupal
 
   # Symlink the
-  - ln -s ../drupal-import_api modules/import_api
+  #- ln -s ../drupal-import_api modules/import_api
 
   # Install the Drupal 8 site.
-  - drush site-install --verbose --db-url=mysql://root:@127.0.0.1/test --yes
+  #- drush site-install --verbose --db-url=mysql://root:@127.0.0.1/test --yes
 
   # Enable the Import API module.
-  - drush en import_api -y
+  #- drush en import_api -y
 
   # Navigate to the core folder for PHPUnit.
-  - cd core
+  #- cd core
 
-script:
-  - phpunit --group import_api
+#script:
+  #- phpunit --group import_api
