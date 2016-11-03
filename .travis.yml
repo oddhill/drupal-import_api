@@ -13,12 +13,15 @@ before_install:
   - mysql -e "create database IF NOT EXISTS test;" -uroot
 
 install:
+  - ls -al
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer global require drush/drush
   - phpenv rehash
   - cd ..
+  - ls -al
   - drush dl drupal-8 --drupal-project-rename=drupal
   - cd drupal
+  - ls -al
   - drush site-install --verbose --db-url=mysql://root:@127.0.0.1/test --yes
   - ln -s ../drupal-import_api modules/import_api
   - drush en import_api -y
