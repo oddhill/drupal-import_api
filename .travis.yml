@@ -24,6 +24,8 @@ install:
   - ls -al
   - drush site-install --verbose --db-url=mysql://root:@127.0.0.1/test --yes
   - ln -s ../drupal-import_api modules/import_api
+  - cd modules
+  - ls -al
   - drush en import_api -y
   - cd core
 
