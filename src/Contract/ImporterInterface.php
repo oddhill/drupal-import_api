@@ -2,6 +2,8 @@
 
 namespace Drupal\import_api\Contract;
 
+use Drupal\import_api\BatchStatus;
+
 interface ImporterInterface {
 
   /**
@@ -10,19 +12,14 @@ interface ImporterInterface {
    * @param $data array
    *   The data received from the fetch request.
    *
-   * @param $context array
-   *   The batch context.
-   *
-   * @see https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/8.2.x
-   *
-   * @return void
+   * @return number
    */
-  public function batch($data, &$context);
+  public function batch($data, BatchStatus $batch_status);
 
   /**
    * Fetch data required for the batch process.
    *
-   * @return array
+   * @return mixed
    */
   public function fetch();
 
