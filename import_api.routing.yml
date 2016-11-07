@@ -7,7 +7,7 @@ import_api.admin_config_importers:
     _permission: 'access administration pages'
 
 import_api.admin_config_importers_import:
-  path: '/admin/config/importers/import'
+  path: '/admin/config/importers/{plugin_id}/import'
   defaults:
     _controller: '\Drupal\import_api\Controller\ImportController::triggerImporter'
   requirements:
