@@ -10,11 +10,7 @@ use Traversable;
 class ImporterManager extends DefaultPluginManager {
 
   /**
-   * ImporterManager constructor.
-   *
-   * @param Traversable $namespaces
-   * @param CacheBackendInterface $cache_backend
-   * @param ModuleHandlerInterface $module_handler
+   * {@inheritdoc}
    */
   public function __construct(
     Traversable $namespaces,
@@ -26,7 +22,7 @@ class ImporterManager extends DefaultPluginManager {
       $namespaces,
       $module_handler,
       'Drupal\import_api\Contract\ImporterInterface',
-      'Drupal\import_api\Annotation'
+      'Drupal\import_api\Annotation\Importer'
     );
 
     $this->alterInfo('importer_info');

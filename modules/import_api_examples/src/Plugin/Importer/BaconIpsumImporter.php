@@ -1,9 +1,11 @@
 <?php
 
-namespace Drupal\import_api_examples;
+namespace Drupal\import_api_examples\Plugin\Importer;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\import_api\BatchStatus;
 use Drupal\import_api\Plugin\ImporterPluginBase;
 use Drupal\import_api\ValueObject\FetchResponse;
 use Drupal\node\Entity\Node;
@@ -12,10 +14,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @Importer(
- *   id = "import_api_examples_bacon_ipsum_importer"
- *   label = @Translation("Array importer")
- *   category = @Translation("Import API examples")
- *   format = "json"
+ *   id = "import_api_examples_bacon_ipsum_importer",
+ *   label = @Translation("Bacon Ipsum Importer"),
+ *   category = @Translation("Import API examples"),
+ *   format = "json",
  * )
  */
 class BaconIpsumImporter extends ImporterPluginBase implements ContainerFactoryPluginInterface {
@@ -62,26 +64,11 @@ class BaconIpsumImporter extends ImporterPluginBase implements ContainerFactoryP
   }
 
   /**
-   * Handle the batch of data.
-   *
-   * @param $data array
-   *   The data received from the fetch request.
-   *
-   * @param $context array
-   *   The batch context.
-   *
-   * @see https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/8.2.x
-   *
-   * @return void
+   * {@inheritdoc}
    */
-  public function batch($data, &$context) {
-    if (empty($context['sandbox'])) {
-      $context['sandbox']['progress'] = 0;
-      $context['sandbox']['max'] = count($data);
-    }
-
-    foreach ($data as $paragraph) {
-      $title = preg_split('/[\s,]+/', $paragraph, rand(3, 5));
+  public function batch($data, BatchStatus $batch_status) {
+    foreach ($data as $index => $paragraph) {
+      $title = 'Bacon Ipsum';
 
       $node = Node::create([
         'type' => 'bacon_ipsum',
@@ -90,6 +77,14 @@ class BaconIpsumImporter extends ImporterPluginBase implements ContainerFactoryP
       ]);
 
       $node->save();
+
+      $batch_status
+        ->setCurrent($index)
+        ->addResult($index)
+        ->setMessage(new TranslatableMarkup('Importing: @title', [
+          '@title' => $title,
+        ]))
+        ->incrementProgress();
     }
   }
 
@@ -108,8 +103,16 @@ class BaconIpsumImporter extends ImporterPluginBase implements ContainerFactoryP
       ],
     ]);
 
-    $data = $response->getBody()->getContents();
+    return $response->getBody()->getContents();
+  }
 
-    return new FetchResponse();
+  /**
+   * Should return the total number of items to be imported.
+   *
+   * @param $data
+   * @return int
+   */
+  public function getTotal($data) {
+    return count($data);
   }
 }
