@@ -136,7 +136,7 @@ class BatchStatus {
    * @return $this
    */
   public function incrementProgress() {
-    $this->progress = $this->progress++;
+    $this->progress = $this->progress + 1;
     return $this;
   }
 

@@ -2,6 +2,7 @@
 
 namespace Drupal\import_api\Controller;
 
+use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
@@ -69,15 +70,21 @@ class ImportController implements ContainerInjectionInterface {
     ];
 
     foreach ($plugin_definitions as $plugin_id => $definition) {
+      /** @var ImporterPluginBase $importer */
+      $importer = $this->importerManager->createInstance($plugin_id);
+
       $output[$plugin_id] = [
         'title' => [
           '#markup' => $definition['label'],
         ],
         'imported_every' => [
-          '#markup' => 'N/A',
+          '#markup' => new TranslatableMarkup('@minutes minutes', [
+            '@minutes' => $importer->getCronIntervalTime() / 60,
+          ]),
         ],
         'last_import' => [
-          '#markup' => 'N/A',
+          '#theme' => 'time',
+          '#timestamp' => $importer->getLastRunAt(),
         ],
         'operations' => [
           '#type' => 'operations',

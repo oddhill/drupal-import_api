@@ -44,7 +44,7 @@ class Importer extends Plugin {
    * has been defined here this format will be used when calling the
    * unserializer on the fetched data.
    *
-   * @var null
+   * @var null (optional)
    *
    * @todo Evaluate if this is needed? Most times a library like guzzle will
    *       probably be used and will do the de-serialization.
@@ -52,11 +52,9 @@ class Importer extends Plugin {
   public $format = null;
 
   /**
-   * An associative array containing the optional key:
-   *   - time: (optional) How much time Drupal cron should spend on calling
-   *     this worker in seconds. Defaults to 15.
+   * The interval this importer should be run at in minutes.
    *
    * @var array (optional)
    */
-  public $cron;
+  public $cron = 60;
 }

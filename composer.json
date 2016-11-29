@@ -10,5 +10,8 @@
     "issues": "https://www.drupal.org/project/issues/import_api",
     "source": "http://cgit.drupalcode.org/import_api"
   },
-  "require": {}
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "^4.8"
+  }
 }

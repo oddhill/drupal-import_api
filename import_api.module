@@ -22,3 +22,16 @@ function import_api_help($route_name, RouteMatchInterface $route_match) {
     default:
   }
 }
+
+function import_api_cron() {
+  $queue = \Drupal::queue('import_api_queue_worker');
+
+  /** @var \Drupal\import_api\ImporterManager $importer_manager */
+  $importer_manager = \Drupal::getContainer()->get('plugin.manager.importer');
+
+  foreach ($importer_manager->getImportersToQueue() as $importer) {
+    if ($queue->createItem($importer)) {
+      $importer->setQueuedAt();
+    }
+  }
+}

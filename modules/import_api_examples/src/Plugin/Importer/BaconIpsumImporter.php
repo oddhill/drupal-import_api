@@ -7,7 +7,6 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\import_api\BatchStatus;
 use Drupal\import_api\Plugin\ImporterPluginBase;
-use Drupal\import_api\ValueObject\FetchResponse;
 use Drupal\node\Entity\Node;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -66,7 +65,7 @@ class BaconIpsumImporter extends ImporterPluginBase implements ContainerFactoryP
   /**
    * {@inheritdoc}
    */
-  public function batch($data, BatchStatus $batch_status) {
+  public function batch($data, BatchStatus $batch_status, &$context) {
     foreach ($data as $index => $paragraph) {
       $title = 'Bacon Ipsum';
 
@@ -89,11 +88,9 @@ class BaconIpsumImporter extends ImporterPluginBase implements ContainerFactoryP
   }
 
   /**
-   * Fetch data required for the batch process.
-   *
-   * @return array
+   * {@inheritdoc}
    */
-  public function fetch() {
+  public function fetch($context) {
     $client = new Client();
 
     $response = $client->request('GET', 'https://baconipsum.com/api', [
@@ -107,10 +104,7 @@ class BaconIpsumImporter extends ImporterPluginBase implements ContainerFactoryP
   }
 
   /**
-   * Should return the total number of items to be imported.
-   *
-   * @param $data
-   * @return int
+   * {@inheritdoc}
    */
   public function getTotal($data) {
     return count($data);
