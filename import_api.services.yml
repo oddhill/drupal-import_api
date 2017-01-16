@@ -3,6 +3,10 @@ services:
     class: Drupal\import_api\ImporterService
     arguments: ['@plugin.manager.importer', '@serializer']
 
+  import_api.importer_remove_service:
+    class: Drupal\import_api\ImporterRemoveService
+    arguments: ['@plugin.manager.importer']
+
   plugin.manager.importer:
     class: Drupal\import_api\ImporterManager
     parent: default_plugin_manager

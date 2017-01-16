@@ -58,6 +58,10 @@ class ImportApiQueueWorker extends QueueWorkerBase implements ContainerFactoryPl
    */
   public function processItem($data) {
     if ($data instanceof ImporterPluginBase) {
+      \Drupal::logger('import_api')->info('Processing queued importer: @label', [
+        '@label' => $data->getLabel(),
+      ]);
+
       $this->importerService->createBatchFor($data);
     }
   }

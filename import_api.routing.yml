@@ -12,3 +12,10 @@ import_api.admin_config_importers_import:
     _controller: '\Drupal\import_api\Controller\ImportController::triggerImporter'
   requirements:
     _permission: 'access administration pages'
+
+import_api.admin_config_importers_remove:
+  path: '/admin/config/importers/{plugin_id}/remove'
+  defaults:
+    _controller: '\Drupal\import_api\Controller\ImportController::triggerImporterItemRemoval'
+  requirements:
+    _permission: 'access administration pages'

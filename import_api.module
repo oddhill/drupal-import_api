@@ -32,6 +32,10 @@ function import_api_cron() {
   foreach ($importer_manager->getImportersToQueue() as $importer) {
     if ($queue->createItem($importer)) {
       $importer->setQueuedAt();
+
+      \Drupal::logger('import_api')->info('Importer has been queued for processing: @label', [
+        '@label' => $importer->getLabel(),
+      ]);
     }
   }
 }

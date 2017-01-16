@@ -65,4 +65,35 @@ interface ImporterInterface {
    */
   public function getTotal($data);
 
+  /**
+   * Query the items to remove and return an array with the loaded items.
+   *
+   * If you want to split the batch into multiple steps only run a sub-set
+   * of items with each query and this method will be run on each batch
+   * iteration.
+   *
+   * @param array $context
+   *   The current batch context.
+   *
+   * @return array
+   *   Should return an array of queried items.
+   */
+  public function removeQuery(&$context);
+
+  /**
+   * Perform the remove action on the items fetched from the remove query.
+   *
+   * @param array $data
+   *   Items to remove.
+   * @param $context
+   *   The current batch context.
+   */
+  public function removeBatch($data, $context);
+
+  /**
+   * Should return the total number of items to remove.
+   *
+   * @return int
+   */
+  public function getRemoveBatchTotal();
 }

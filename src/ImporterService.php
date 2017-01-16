@@ -144,11 +144,6 @@ class ImporterService {
     if ($context['sandbox']['progress'] !== $context['sandbox']['total']) {
       $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['total'];
     }
-
-    // If the importer is finished reset the queued at value.
-    if ($context['finished'] === 1) {
-      $importer->resetQueuedAt();
-    }
   }
 
   /**

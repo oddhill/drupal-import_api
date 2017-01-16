@@ -2,12 +2,15 @@
 
 namespace Drupal\import_api_examples\Plugin\Importer;
 
+use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\import_api\BatchStatus;
 use Drupal\import_api\Plugin\ImporterPluginBase;
 use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -109,4 +112,55 @@ class BaconIpsumImporter extends ImporterPluginBase implements ContainerFactoryP
   public function getTotal($data) {
     return count($data);
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRemoveBatchTotal() {
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'bacon_ipsum');
+
+    $query->count();
+
+    return (int) $query->execute();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeQuery(&$context) {
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'bacon_ipsum')
+      ->condition('nid', $context['sandbox']['current_id'], '>')
+      ->sort('nid')
+      ->range(0, 10);
+
+    $node_ids = $query->execute();
+
+    $nodes = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadMultiple($node_ids);
+
+    return $nodes;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeBatch($data, $context) {
+    /** @var NodeInterface $node */
+    foreach ($data as $node) {
+      $context['results']['remove'][] = $node->id() . ':' . $node->label();
+
+      $context['sandbox']['progress']++;
+      $context['sandbox']['current_id'] = $node->id();
+
+      $context['message'] = new TranslatableMarkup('Removing @label', [
+        '@label' => $node->label(),
+      ]);
+
+      $node->delete();
+    }
+  }
+
 }
