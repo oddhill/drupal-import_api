@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Reset all importer queues and last run.
+ */
+function import_api_update_8001() {
+  /** @var \Drupal\import_api\ImporterManager $importer_manager */
+  $importer_manager = \Drupal::getContainer()->get('plugin.manager.importer');
+
+  foreach ($importer_manager->getImporterInstances() as $importer) {
+    $importer->resetQueuedAt();
+    $importer->setLastRunAt(0);
+  }
+}

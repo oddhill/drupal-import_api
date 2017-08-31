@@ -59,6 +59,39 @@ class ImporterService {
   }
 
   /**
+   * Handles the execution of a queued importer.
+   *
+   * @param ImporterPluginBase $importer
+   *   The queued importer to run.
+   */
+  public function handleQueueFor(ImporterPluginBase $importer) {
+    module_load_include('inc', 'import_api', 'import_api.batch');
+
+    try {
+      $plugin_definition = $importer->getPluginDefinition();
+
+      $context = [
+        'sandbox' => [],
+        'results' => [],
+        'success' => FALSE,
+        'start' => 0,
+        'elapsed' => 0,
+      ];
+
+      $this->preBatch($plugin_definition['id'], $context);
+      $this->batch($plugin_definition['id'], $context);
+      $this->postBatch($plugin_definition['id'], $context);
+
+      $importer->setLastRunAt();
+
+      import_api_batch_finished(TRUE, $context['results']);
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('import_api')->error($e->getMessage());
+    }
+  }
+
+  /**
    * Start processing the batch.
    *
    * @param Url $url

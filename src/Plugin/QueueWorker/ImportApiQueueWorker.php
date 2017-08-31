@@ -62,7 +62,7 @@ class ImportApiQueueWorker extends QueueWorkerBase implements ContainerFactoryPl
         '@label' => $data->getLabel(),
       ]);
 
-      $this->importerService->createBatchFor($data);
+      $this->importerService->handleQueueFor($data);
     }
   }
 }
