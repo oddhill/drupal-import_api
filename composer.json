@@ -1,17 +1,22 @@
 {
-  "name": "drupal/import_api",
-  "type": "drupal-module",
-  "description": "Lets you build importers that can be run trough the Drupal interface or during cron runs.",
-  "keywords": ["Drupal"],
-  "license": "MIT",
-  "homepage": "https://www.drupal.org/project/import_api",
-  "minimum-stability": "dev",
-  "support": {
-    "issues": "https://www.drupal.org/project/issues/import_api",
-    "source": "http://cgit.drupalcode.org/import_api"
-  },
-  "require": {},
-  "require-dev": {
-    "phpunit/phpunit": "^4.8"
-  }
+    "name": "drupal/import_api",
+    "type": "drupal-module",
+    "description": "Lets you build importers that can be run trough the Drupal interface or during cron runs.",
+    "keywords": ["Drupal"],
+    "license": "MIT",
+    "homepage": "https://www.drupal.org/project/import_api",
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/import_api",
+        "source": "http://cgit.drupalcode.org/import_api"
+    },
+    "autoload": {
+        "psr-4": {
+            "Drupal\\import_api\\": "src/",
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    }
 }
