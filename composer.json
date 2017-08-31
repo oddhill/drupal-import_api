@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Drupal\\import_api\\": "src/",
+            "Drupal\\import_api\\": "src/"
         }
     },
     "require": {},
